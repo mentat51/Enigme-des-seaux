@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Enigme des seaux</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+          <h1>Enigme des seaux</h1>
+          <p>Vous devez obtenir un seau de 4 litres avec un seau de 3L et un de 5L</p>
+          <p>J'ai essayé de faire l'exercice avec les éléments appris dans la quête "JS Basic 10",
+          donc pas de class et pas d'héritage.</br>
+          Si vous avez une idée ou une remarque pour améliorer le code, n'hésitez pas.</p>
+    <script>
+
+function print(text) {
+    // plutot que d'afficher dans la console, on va afficher directement dans la page html
+    document.writeln(`${text}<br>`); // avec un br pour faire un saut de ligne
+}
+const seau = {
+    // Property (propriétés de l'objet)
+    name: '',
+    contenance: 0, //en litres
+    contenu: 0, //en litres
+
+    // Methods (méthodes de l'objet)
+    state: function() {
+         return `${this.contenu}/${this.contenance} L`
+    },
+
+    remplir: function() {
+         print(`on remplit le seau de ${this.contenance}L...`);
+         this.contenu = this.contenance;
+    },
+    transvaserDans: function(dans) {
+         // place restante dans la destination
+         let restant = dans.contenance - dans.contenu;
+         if (restant >= this.contenu) {
+             // Tout tient, on peut tout transvaser
+             print(`on transvase le ${this.name} dans le ${dans.name}`);
+             dans.contenu += this.contenu;
+             this.contenu = 0;
+         } else {
+             // On transvase juste ce que l'on peut
+             print(`on remplit le ${dans.name} avec le ${this.name}`);
+             dans.contenu += restant;
+             this.contenu -= restant;
+         }
+    },
+    vider: function() {
+         print(`on vide le seau de ${this.contenance}L...`);
+         this.contenu = 0;
+    },
+}
+
+// crée un objet avec seau comme modèle (prototype)
+const seau3L = Object.create(seau);
+seau3L.name = 'Seau 3L';
+seau3L.contenance = 3;
+
+// Même chose pour le seau de 5L
+const seau5L = Object.create(seau);
+seau5L.name = 'Seau 5L';
+seau5L.contenance = 5;
+
+// On affiche l'état des deux seaux
+print(`${seau3L.state()} ${seau5L.state()}`);
+
+print('Une des deux solutions possibles, étape par étape');
+seau3L.remplir();
+print(`${seau3L.state()} ${seau5L.state()}`);
+
+seau3L.transvaserDans(seau5L);
+print(seau3L.state() + ' ' + seau5L.state());
+
+seau3L.remplir();
+print(seau3L.state() + ' ' + seau5L.state());
+
+seau3L.transvaserDans(seau5L);
+print(seau3L.state() + ' ' + seau5L.state());
+
+seau5L.vider();
+print(seau3L.state() + ' ' + seau5L.state());
+
+seau3L.transvaserDans(seau5L);
+print(seau3L.state() + ' ' + seau5L.state());
+
+seau3L.remplir();
+print(seau3L.state() + ' ' + seau5L.state());
+
+seau3L.transvaserDans(seau5L);
+print(seau3L.state() + ' ' + seau5L.state());
+</script>
+
+  </body>
+</html>
+
